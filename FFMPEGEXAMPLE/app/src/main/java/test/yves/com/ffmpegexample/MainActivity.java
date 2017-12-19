@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private final String VIDEO_NAME = "transformers3";
     private final String VIDEO_SUFFIX_FLV = ".flv";
     private final String VIDEO_SUFFIX_MP4 = ".mp4";
+    private final String VIDEO_OUTPUT_NAME = "out";
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ffmpegrun(8, getTransforCommend());
+                ffmpegrun(getMP4CompressCommend().length, getMP4CompressCommend());
                 Log.i("ffmpeg", "fffmpegcore run end");
                 runOnUiThread(new Runnable() {
                     @Override
@@ -94,16 +95,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String[] getTransforCommend() {
-        String[] commands = new String[8];
+    private String[] getMP4CompressCommend() {
+        String[] commands = new String[12];
         commands[0] = "ffmpeg";
-        commands[1] = "-i";
-        commands[2] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_FLV;
-        commands[3] = "-vcodec";
-        commands[4] = "libx264";
-        commands[5] = "-acodec";
-        commands[6] = "aac";
-        commands[7] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_MP4;
+        commands[1] = "-threads";
+        commands[2] = "4";
+        commands[3] = "-i";
+        commands[4] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_MP4;
+//        commands[5] = "-vcodec";
+//        commands[6] = "copy";
+        commands[5] = "-s";
+        commands[6] = "480*320";
+        commands[7] = "-r";
+        commands[8] = "20";
+        commands[9] = "-ab";
+        commands[10] = "32k";
+//        commands[11] = "-acodec";
+//        commands[12] = "copy";
+        commands[11] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
+
+        return commands;
+    }
+
+    private String[] getFlvTransToMP4Commend() {
+        String[] commands = new String[10];
+        commands[0] = "ffmpeg";
+        commands[1] = "-threads";
+        commands[2] = "4";
+        commands[3] = "-i";
+        commands[4] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_MP4;
+        commands[5] = "-vcodec";
+        commands[6] = "libx264";
+        commands[7] = "-acodec";
+        commands[8] = "aac";
+        commands[9] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
 
         return commands;
     }
