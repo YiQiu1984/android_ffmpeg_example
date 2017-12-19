@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ffmpegcore(8, getTransforCommend());
+                ffmpegrun(8, getTransforCommend());
                 Log.i("ffmpeg", "fffmpegcore run end");
                 runOnUiThread(new Runnable() {
                     @Override
@@ -113,6 +113,5 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
-    public native int ffmpegcore(int argc, String[] argv);
-    public native int ffmpegrun(String[] argv);
+    public native int ffmpegrun(int argc, String[] argv);
 }
