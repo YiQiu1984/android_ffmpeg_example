@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String VIDEO_PATH = "/sdcard/Downloads/";
     private final String VIDEO_NAME = "transformers3";
+    private final String VIDEO_SUFFIX_AVI = ".avi";
     private final String VIDEO_SUFFIX_FLV = ".flv";
     private final String VIDEO_SUFFIX_MP4 = ".mp4";
     private final String VIDEO_OUTPUT_NAME = "out";
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ffmpegrun(getMP4CompressCommend().length, getMP4CompressCommend());
+                ffmpegrun(flvToMP4().length, flvToMP4());
                 Log.i("ffmpeg", "fffmpegcore run end");
                 runOnUiThread(new Runnable() {
                     @Override
@@ -102,16 +103,12 @@ public class MainActivity extends AppCompatActivity {
         commands[2] = "4";
         commands[3] = "-i";
         commands[4] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_MP4;
-//        commands[5] = "-vcodec";
-//        commands[6] = "copy";
         commands[5] = "-s";
         commands[6] = "480*320";
         commands[7] = "-r";
         commands[8] = "20";
         commands[9] = "-ab";
         commands[10] = "32k";
-//        commands[11] = "-acodec";
-//        commands[12] = "copy";
         commands[11] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
 
         return commands;
@@ -129,6 +126,50 @@ public class MainActivity extends AppCompatActivity {
         commands[7] = "-acodec";
         commands[8] = "aac";
         commands[9] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
+
+        return commands;
+    }
+
+    private String[] aviToMP4() {
+        String[] commands = new String[16];
+        commands[0] = "ffmpeg";
+        commands[1] = "-threads";
+        commands[2] = "4";
+        commands[3] = "-i";
+        commands[4] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_AVI;
+        commands[5] = "-vcodec";
+        commands[6] = "libx264";
+        commands[7] = "-s";
+        commands[8] = "480*320";
+        commands[9] = "-r";
+        commands[10] = "20";
+        commands[11] = "-acodec";
+        commands[12] = "aac";
+        commands[13] = "-ab";
+        commands[14] = "16k";
+        commands[15] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
+
+        return commands;
+    }
+
+    private String[] flvToMP4() {
+        String[] commands = new String[16];
+        commands[0] = "ffmpeg";
+        commands[1] = "-threads";
+        commands[2] = "4";
+        commands[3] = "-i";
+        commands[4] = VIDEO_PATH + VIDEO_NAME + VIDEO_SUFFIX_FLV;
+        commands[5] = "-vcodec";
+        commands[6] = "libx264";
+        commands[7] = "-s";
+        commands[8] = "480*320";
+        commands[9] = "-r";
+        commands[10] = "20";
+        commands[11] = "-acodec";
+        commands[12] = "aac";
+        commands[13] = "-ab";
+        commands[14] = "16k";
+        commands[15] = VIDEO_PATH + VIDEO_OUTPUT_NAME + VIDEO_SUFFIX_MP4;
 
         return commands;
     }
